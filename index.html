@@ -14,6 +14,9 @@
                         darkBg: '#02040a',
                         darkCard: '#090d16',
                         darkBorder: '#1e293b',
+                        lightBg: '#f8fafc',
+                        lightCard: '#ffffff',
+                        lightBorder: '#e2e8f0',
                         neonCyan: '#38bdf8',
                         neonBlue: '#3b82f6',
                         neonAmber: '#fbbf24',
@@ -30,21 +33,42 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #02040a;
-            color: #f8fafc;
             overflow: hidden;
             user-select: none;
         }
-        .canvas-container {
-            width: 100vw;
-            height: 100vh;
-            position: relative;
-            cursor: grab;
+        /* Dark Theme Background */
+        html.dark body {
+            background-color: #02040a;
+            color: #f8fafc;
+        }
+        html.dark .canvas-container {
+            background-color: #02040a;
             background-image: 
                 radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.08) 0%, transparent 80%),
                 linear-gradient(to right, rgba(30, 41, 59, 0.25) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(30, 41, 59, 0.25) 1px, transparent 1px);
             background-size: 100% 100%, 60px 60px, 60px 60px;
+        }
+
+        /* Light Theme Background */
+        html:not(.dark) body {
+            background-color: #f1f5f9;
+            color: #0f172a;
+        }
+        html:not(.dark) .canvas-container {
+            background-color: #f8fafc;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.12) 0%, transparent 80%),
+                linear-gradient(to right, rgba(203, 213, 225, 0.4) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(203, 213, 225, 0.4) 1px, transparent 1px);
+            background-size: 100% 100%, 60px 60px, 60px 60px;
+        }
+
+        .canvas-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            cursor: grab;
         }
         .canvas-container:active {
             cursor: grabbing;
@@ -67,49 +91,54 @@
             height: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #060913;
+            background: rgba(0,0,0,0.05);
         }
         ::-webkit-scrollbar-thumb {
-            background: #334155;
+            background: #cbd5e1;
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #475569;
+            background: #94a3b8;
         }
     </style>
 </head>
-<body class="bg-darkBg text-slate-100 h-screen w-screen flex flex-col">
+<body class="h-screen w-screen flex flex-col transition-colors duration-300">
 
-    <header class="bg-darkCard/95 backdrop-blur-xl border-b border-slate-800 px-6 py-3.5 flex items-center justify-between z-30 shadow-2xl">
+    <header class="dark:bg-darkCard/95 bg-white/95 backdrop-blur-xl dark:border-slate-800 border-slate-200 border-b px-6 py-3.5 flex items-center justify-between z-30 shadow-2xl transition-colors duration-300">
         <div class="flex items-center space-x-3.5">
             <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-cyan-400 to-blue-600 flex items-center justify-center text-slate-950 shadow-lg shadow-cyan-500/30 font-extrabold text-xl">
                 <i class="fa-solid fa-water"></i>
             </div>
             <div>
-                <h1 class="font-extrabold text-lg text-white tracking-wide flex items-center gap-2">
+                <h1 class="font-extrabold text-lg dark:text-white text-slate-900 tracking-wide flex items-center gap-2">
                     Xử lý Nước Thải: Phương pháp Cơ học
-                    <span class="text-[10px] bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 px-2 py-0.5 rounded-full font-semibold uppercase tracking-wider">Presentation Mode</span>
+                    <span class="text-[10px] bg-cyan-500/20 text-cyan-500 dark:text-cyan-300 border border-cyan-500/40 px-2 py-0.5 rounded-full font-semibold uppercase tracking-wider">Presentation Mode</span>
                 </h1>
-                <p class="text-xs text-slate-400">Sơ đồ tư duy tương tác chuyên sâu & Hình ảnh công trình trực quan</p>
+                <p class="text-xs dark:text-slate-400 text-slate-500">Sơ đồ tư duy tương tác chuyên sâu & Hình ảnh công trình trực quan</p>
             </div>
         </div>
         
         <!-- Controls Toolbar -->
-        <div class="flex items-center space-x-2 bg-slate-900/95 p-1.5 rounded-2xl border border-slate-800 shadow-xl">
-            <button onclick="zoomIn()" class="p-2.5 hover:bg-slate-800 rounded-xl text-cyan-400 transition shadow-sm hover:scale-105" title="Phóng to (+)">
+        <div class="flex items-center space-x-2 dark:bg-slate-900/95 bg-slate-100 p-1.5 rounded-2xl dark:border-slate-800 border-slate-200 border shadow-xl transition-colors duration-300">
+            <!-- Nút Đổi Nền Sáng / Tối -->
+            <button onclick="toggleTheme()" class="p-2.5 dark:hover:bg-slate-800 hover:bg-slate-200 rounded-xl dark:text-amber-400 text-amber-500 transition shadow-sm hover:scale-105" title="Chuyển đổi giao diện Sáng / Tối">
+                <i id="themeIcon" class="fa-solid fa-sun text-base"></i>
+            </button>
+            <div class="h-5 w-px dark:bg-slate-700 bg-slate-300 mx-1"></div>
+            <button onclick="zoomIn()" class="p-2.5 dark:hover:bg-slate-800 hover:bg-slate-200 rounded-xl dark:text-cyan-400 text-cyan-600 transition shadow-sm hover:scale-105" title="Phóng to (+)">
                 <i class="fa-solid fa-magnifying-glass-plus text-base"></i>
             </button>
-            <button onclick="zoomOut()" class="p-2.5 hover:bg-slate-800 rounded-xl text-cyan-400 transition shadow-sm hover:scale-105" title="Thu nhỏ (-)">
+            <button onclick="zoomOut()" class="p-2.5 dark:hover:bg-slate-800 hover:bg-slate-200 rounded-xl dark:text-cyan-400 text-cyan-600 transition shadow-sm hover:scale-105" title="Thu nhỏ (-)">
                 <i class="fa-solid fa-magnifying-glass-minus text-base"></i>
             </button>
-            <button onclick="resetView()" class="p-2.5 hover:bg-slate-800 rounded-xl text-cyan-400 transition shadow-sm hover:scale-105" title="Về vị trí ban đầu">
+            <button onclick="resetView()" class="p-2.5 dark:hover:bg-slate-800 hover:bg-slate-200 rounded-xl dark:text-cyan-400 text-cyan-600 transition shadow-sm hover:scale-105" title="Về vị trí ban đầu">
                 <i class="fa-solid fa-house text-base"></i>
             </button>
-            <div class="h-5 w-px bg-slate-700 mx-1"></div>
-            <button onclick="expandAll()" class="px-3.5 py-1.5 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-xs font-bold rounded-xl shadow-sm transition">
+            <div class="h-5 w-px dark:bg-slate-700 bg-slate-300 mx-1"></div>
+            <button onclick="expandAll()" class="px-3.5 py-1.5 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-600 dark:text-cyan-300 border border-cyan-500/30 text-xs font-bold rounded-xl shadow-sm transition">
                 <i class="fa-solid fa-angles-down mr-1"></i> Mở tất cả
             </button>
-            <button onclick="collapseAll()" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded-xl shadow-sm transition">
+            <button onclick="collapseAll()" class="px-3.5 py-1.5 dark:bg-slate-800 dark:hover:bg-slate-700 bg-slate-200 hover:bg-slate-300 dark:text-slate-300 text-slate-700 text-xs font-bold rounded-xl shadow-sm transition">
                 <i class="fa-solid fa-angles-up mr-1"></i> Thu gọn
             </button>
         </div>
@@ -123,7 +152,7 @@
     </div>
 
     <div id="detailModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 animate-in fade-in duration-200">
-        <div class="bg-darkCard border border-slate-700 rounded-2xl shadow-2xl w-full max-w-5xl max-h-[92vh] flex flex-col overflow-hidden">
+        <div class="dark:bg-darkCard bg-white dark:border-slate-700 border-slate-200 border rounded-2xl shadow-2xl w-full max-w-5xl max-h-[92vh] flex flex-col overflow-hidden transition-colors duration-300">
             <div class="px-6 py-4 bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 text-white flex items-center justify-between shadow-lg">
                 <div class="flex items-center space-x-3.5">
                     <div id="modalIconContainer" class="w-11 h-11 rounded-xl bg-black/30 backdrop-blur-md flex items-center justify-center text-xl text-cyan-300 border border-white/20">
@@ -139,54 +168,54 @@
                 </button>
             </div>
 
-            <div class="flex-1 overflow-y-auto p-6 grid grid-cols-1 lg:grid-cols-2 gap-6 bg-[#04070e]">
+            <div class="flex-1 overflow-y-auto p-6 grid grid-cols-1 lg:grid-cols-2 gap-6 dark:bg-[#04070e] bg-slate-50 transition-colors duration-300">
                 <div class="space-y-4">
                     <!-- Mục Vị trí công trình -->
-                    <div id="locationSection" class="bg-darkCard p-5 rounded-2xl border border-slate-800 shadow-xl relative overflow-hidden">
+                    <div id="locationSection" class="dark:bg-darkCard bg-white p-5 rounded-2xl dark:border-slate-800 border-slate-200 border shadow-xl relative overflow-hidden transition-colors duration-300">
                         <div class="absolute top-0 left-0 w-1.5 h-full bg-emerald-400"></div>
-                        <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-2 flex items-center">
+                        <h3 class="text-xs font-bold text-emerald-500 dark:text-emerald-400 uppercase tracking-widest mb-2 flex items-center">
                             <i class="fa-solid fa-location-dot mr-2"></i> Vị trí trong dây chuyền
                         </h3>
-                        <p id="modalLocation" class="text-slate-200 text-sm leading-relaxed">Đang tải vị trí...</p>
+                        <p id="modalLocation" class="dark:text-slate-200 text-slate-700 text-sm leading-relaxed">Đang tải vị trí...</p>
                     </div>
 
                     <!-- Mục Mục đích công trình -->
-                    <div class="bg-darkCard p-5 rounded-2xl border border-slate-800 shadow-xl relative overflow-hidden">
+                    <div class="dark:bg-darkCard bg-white p-5 rounded-2xl dark:border-slate-800 border-slate-200 border shadow-xl relative overflow-hidden transition-colors duration-300">
                         <div class="absolute top-0 left-0 w-1.5 h-full bg-cyan-400"></div>
-                        <h3 class="text-xs font-bold text-cyan-400 uppercase tracking-widest mb-2 flex items-center">
+                        <h3 class="text-xs font-bold text-cyan-500 dark:text-cyan-400 uppercase tracking-widest mb-2 flex items-center">
                             <i class="fa-solid fa-book-open mr-2"></i> Mục đích công trình
                         </h3>
-                        <p id="modalDescription" class="text-slate-200 text-sm leading-relaxed">Đang tải nội dung...</p>
+                        <p id="modalDescription" class="dark:text-slate-200 text-slate-700 text-sm leading-relaxed">Đang tải nội dung...</p>
                     </div>
 
                     <!-- Phân loại -->
-                    <div class="bg-darkCard p-5 rounded-2xl border border-slate-800 shadow-xl relative overflow-hidden">
+                    <div class="dark:bg-darkCard bg-white p-5 rounded-2xl dark:border-slate-800 border-slate-200 border shadow-xl relative overflow-hidden transition-colors duration-300">
                         <div class="absolute top-0 left-0 w-1.5 h-full bg-amber-400"></div>
-                        <h3 class="text-xs font-bold text-amber-400 uppercase tracking-widest mb-3 flex items-center">
-                            <i class="fa-solid fa-gears mr-2"></i> Phân loại <span class="text-[10px] text-cyan-300 ml-2 font-normal"></span>
+                        <h3 class="text-xs font-bold text-amber-500 dark:text-amber-400 uppercase tracking-widest mb-3 flex items-center">
+                            <i class="fa-solid fa-gears mr-2"></i> Phân loại <span class="text-[10px] text-cyan-500 dark:text-cyan-300 ml-2 font-normal"></span>
                         </h3>
-                        <div id="modalDetails" class="text-slate-300 text-sm space-y-2.5"></div>
+                        <div id="modalDetails" class="dark:text-slate-300 text-slate-600 text-sm space-y-2.5"></div>
                     </div>
                 </div>
 
-                <div class="bg-slate-950 rounded-2xl overflow-hidden shadow-2xl flex flex-col relative border border-slate-800 min-h-[350px] items-center justify-center p-4">
-                    <div class="absolute top-4 left-4 z-10 bg-slate-900/90 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs text-cyan-300 font-semibold flex items-center space-x-2 border border-cyan-500/40 shadow-lg">
+                <div class="dark:bg-slate-950 bg-slate-100 rounded-2xl overflow-hidden shadow-2xl flex flex-col relative dark:border-slate-800 border-slate-200 border min-h-[350px] items-center justify-center p-4 transition-colors duration-300">
+                    <div class="absolute top-4 left-4 z-10 dark:bg-slate-900/90 bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs text-cyan-600 dark:text-cyan-300 font-semibold flex items-center space-x-2 dark:border-cyan-500/40 border-cyan-200 border shadow-lg">
                         <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
                         <span id="imageLabel">Hình ảnh theo Thông số</span>
                     </div>
                     
                     <div class="w-full h-full flex items-center justify-center">
-                        <img id="workImage" src="dan_link_vao_day" alt="Hình ảnh thông số kỹ thuật" class="max-h-[300px] max-w-full object-contain rounded-xl border border-slate-800 shadow-lg" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'250\' viewBox=\'0 0 400 250\'><rect width=\'400\' height=\'250\' fill=\'%23090d16\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%2338bdf8\' font-family=\'sans-serif\' font-size=\'14\'>dan_link_vao_day</text></svg>'">
+                        <img id="workImage" src="dan_link_vao_day" alt="Hình ảnh thông số kỹ thuật" class="max-h-[300px] max-w-full object-contain rounded-xl dark:border-slate-800 border-slate-200 border shadow-lg" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'250\' viewBox=\'0 0 400 250\'><rect width=\'400\' height=\'250\' fill=\'%23090d16\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%2338bdf8\' font-family=\'sans-serif\' font-size=\'14\'>dan_link_vao_day</text></svg>'">
                     </div>
 
-                    <div class="absolute bottom-4 right-4 z-10 bg-slate-900/90 backdrop-blur-md px-3 py-1 rounded-xl text-[11px] text-slate-400 border border-slate-800">
+                    <div class="absolute bottom-4 right-4 z-10 dark:bg-slate-900/90 bg-white/90 backdrop-blur-md px-3 py-1 rounded-xl text-[11px] dark:text-slate-400 text-slate-500 dark:border-slate-800 border-slate-200 border">
                         <i class="fa-solid fa-image mr-1"></i>
                     </div>
                 </div>
             </div>
 
-            <div class="px-6 py-3.5 bg-darkCard border-t border-slate-800 flex justify-end">
-                <button onclick="closeModal()" class="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-bold rounded-xl transition border border-slate-700">Đóng cửa sổ</button>
+            <div class="px-6 py-3.5 dark:bg-darkCard bg-white dark:border-slate-800 border-slate-200 border-t flex justify-end transition-colors duration-300">
+                <button onclick="closeModal()" class="px-6 py-2.5 dark:bg-slate-800 dark:hover:bg-slate-700 bg-slate-200 hover:bg-slate-300 dark:text-slate-200 text-slate-800 text-sm font-bold rounded-xl transition dark:border-slate-700 border-slate-300 border">Đóng cửa sổ</button>
             </div>
         </div>
     </div>
@@ -197,11 +226,13 @@
             title: "TỔNG QUAN XỬ LÝ NƯỚC THẢI\nPhương pháp Cơ học",
             type: "root",
             icon: "fa-water",
+            colorTheme: "cyan",
             children: [
                 {
                     id: "muc-dich",
                     title: "1. Mục đích của phương pháp",
                     type: "branch",
+                    colorTheme: "cyan",
                     icon: "fa-bullseye",
                     collapsed: false,
                     children: [
@@ -239,6 +270,7 @@
                     id: "ban-chat",
                     title: "2. Bản chất của phương pháp",
                     type: "branch",
+                    colorTheme: "purple",
                     icon: "fa-atom",
                     collapsed: false,
                     children: [
@@ -269,6 +301,7 @@
                     id: "cong-trinh",
                     title: "3. Phân loại công trình & Mục đích",
                     type: "branch",
+                    colorTheme: "amber",
                     icon: "fa-industry",
                     collapsed: false,
                     children: [
@@ -378,6 +411,30 @@
             ]
         };
 
+        const themeConfig = {
+            cyan: {
+                borderClass: "dark:border-l-cyan-400 border-l-cyan-500 dark:border-slate-800 border-slate-200 border-l-4 border",
+                iconBg: "bg-cyan-500/20 text-cyan-600 dark:text-cyan-300 border border-cyan-500/40",
+                lineColor: "#38bdf8",
+                childBorder: "dark:border-cyan-500/30 border-cyan-300",
+                childIcon: "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400"
+            },
+            purple: {
+                borderClass: "dark:border-l-fuchsia-400 border-l-fuchsia-500 dark:border-slate-800 border-slate-200 border-l-4 border",
+                iconBg: "bg-fuchsia-500/20 text-fuchsia-600 dark:text-fuchsia-300 border border-fuchsia-500/40",
+                lineColor: "#e879f9",
+                childBorder: "dark:border-fuchsia-500/30 border-fuchsia-300",
+                childIcon: "bg-fuchsia-500/10 text-fuchsia-600 dark:text-fuchsia-400"
+            },
+            amber: {
+                borderClass: "dark:border-l-amber-400 border-l-amber-500 dark:border-slate-800 border-slate-200 border-l-4 border",
+                iconBg: "bg-amber-500/20 text-amber-600 dark:text-amber-300 border border-amber-500/40",
+                lineColor: "#fbbf24",
+                childBorder: "dark:border-amber-500/30 border-amber-300",
+                childIcon: "bg-amber-500/10 text-amber-600 dark:text-amber-400"
+            }
+        };
+
         let scale = 1;
         let panX = 0;
         let panY = 0;
@@ -391,6 +448,19 @@
 
         const rootX = 4000;
         const rootY = 4000;
+
+        function toggleTheme() {
+            const htmlEl = document.documentElement;
+            const themeIcon = document.getElementById('themeIcon');
+            if (htmlEl.classList.contains('dark')) {
+                htmlEl.classList.remove('dark');
+                themeIcon.className = 'fa-solid fa-moon text-base';
+            } else {
+                htmlEl.classList.add('dark');
+                themeIcon.className = 'fa-solid fa-sun text-base';
+            }
+            drawLines();
+        }
 
         function updateTransform() {
             workspace.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
@@ -472,7 +542,7 @@
 
         function renderMindmap() {
             nodesContainer.innerHTML = '';
-            const rootEl = createNodeElement(mindmapData, rootX, rootY, true);
+            const rootEl = createNodeElement(mindmapData, rootX, rootY, true, 'cyan');
             nodesContainer.appendChild(rootEl);
 
             mindmapData.children.forEach((branch, index) => {
@@ -490,7 +560,7 @@
                     branchY = rootY;
                 }
 
-                const branchEl = createNodeElement(branch, branchX, branchY, false);
+                const branchEl = createNodeElement(branch, branchX, branchY, false, branch.colorTheme);
                 nodesContainer.appendChild(branchEl);
 
                 if (!branch.collapsed && branch.children) {
@@ -509,14 +579,14 @@
                             leafY = branchY - 450 + (leafIndex * 130);
                         }
 
-                        const leafEl = createNodeElement(leaf, leafX, leafY, false);
+                        const leafEl = createNodeElement(leaf, leafX, leafY, false, branch.colorTheme);
                         nodesContainer.appendChild(leafEl);
 
                         if (leaf.hasSubNodes && leaf.subChildren && !leaf.collapsed) {
                             leaf.subChildren.forEach((sub, subIdx) => {
                                 let subX = leafX - 380;
                                 let subY = leafY - 65 + (subIdx * 65);
-                                const subEl = createNodeElement(sub, subX, subY, false);
+                                const subEl = createNodeElement(sub, subX, subY, false, branch.colorTheme);
                                 nodesContainer.appendChild(subEl);
                             });
                         }
@@ -527,38 +597,46 @@
             setTimeout(drawLines, 20);
         }
 
-        function createNodeElement(node, x, y, isRoot = false) {
+        function createNodeElement(node, x, y, isRoot = false, themeKey = 'cyan') {
             const el = document.createElement('div');
             el.id = `node-${node.id}`;
             
             const isInteractiveLeaf = (node.type === 'leaf' && node.specs !== undefined);
             const isSubLeaf = (node.type === 'sub-leaf');
             const hasChildren = (node.type === 'branch' || (node.hasSubNodes && node.subChildren));
+            const theme = themeConfig[themeKey] || themeConfig.cyan;
 
             if (isRoot) {
                 el.style.width = '400px';
                 el.style.left = `${x - 200}px`;
                 el.style.top = `${y - 75}px`;
-                el.className = `node-card absolute rounded-2xl border-2 border-cyan-400 bg-gradient-to-tr from-slate-950 via-slate-900 to-cyan-950 p-5 flex items-center space-x-4 z-20 shadow-2xl shadow-cyan-500/30 text-white pointer-events-auto`;
+                el.className = `node-card absolute rounded-2xl border-2 border-cyan-400 dark:bg-gradient-to-tr dark:from-slate-950 dark:via-slate-900 dark:to-cyan-950 bg-gradient-to-tr from-slate-900 to-cyan-900 p-5 flex items-center space-x-4 z-20 shadow-2xl shadow-cyan-500/30 text-white pointer-events-auto`;
             } else if (node.type === 'branch') {
                 el.style.width = '380px';
                 el.style.left = `${x - 190}px`;
                 el.style.top = `${y - 50}px`;
-                el.className = `node-card absolute rounded-2xl border border-slate-700 bg-darkCard/95 p-4 flex items-center space-x-3.5 z-20 shadow-xl text-slate-100 border-l-4 border-l-cyan-400 font-semibold pointer-events-auto`;
+                el.className = `node-card absolute rounded-2xl border dark:bg-darkCard/95 bg-white/95 p-4 flex items-center space-x-3.5 z-20 shadow-xl dark:text-slate-100 text-slate-800 ${theme.borderClass} font-semibold pointer-events-auto transition-colors duration-300`;
             } else if (isSubLeaf) {
                 el.style.width = '320px';
                 el.style.left = `${x - 160}px`;
                 el.style.top = `${y - 30}px`;
-                el.className = `node-card absolute rounded-xl border border-slate-700 bg-slate-900/95 p-3 flex items-center space-x-2.5 z-20 shadow-md text-slate-300 text-xs pointer-events-auto opacity-95`;
+                el.className = `node-card absolute rounded-xl border ${theme.childBorder} dark:bg-slate-900/95 bg-white/95 p-3 flex items-center space-x-2.5 z-20 shadow-md dark:text-slate-300 text-slate-600 text-xs pointer-events-auto opacity-95 transition-colors duration-300`;
             } else {
                 el.style.width = '420px';
                 el.style.left = `${x - 210}px`;
                 el.style.top = `${y - 45}px`;
                 const interactiveClass = isInteractiveLeaf ? 'interactive cursor-pointer hover:border-cyan-400' : 'opacity-95';
-                el.className = `node-card absolute rounded-2xl border border-slate-800 bg-slate-900/95 p-4 flex items-center space-x-3 z-20 shadow-lg text-slate-200 text-xs pointer-events-auto ${interactiveClass}`;
+                el.className = `node-card absolute rounded-2xl border ${theme.childBorder} dark:bg-slate-900/95 bg-white/95 p-4 flex items-center space-x-3 z-20 shadow-lg dark:text-slate-200 text-slate-700 text-xs pointer-events-auto ${interactiveClass} transition-colors duration-300`;
             }
 
-            let iconBg = isRoot ? 'bg-cyan-400 text-slate-950 font-bold text-lg' : node.type === 'branch' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-base' : isSubLeaf ? 'bg-slate-800 text-emerald-400 text-sm' : 'bg-slate-800 text-cyan-400 text-sm';
+            let iconBg = '';
+            if (isRoot) {
+                iconBg = 'bg-cyan-400 text-slate-950 font-bold text-lg';
+            } else if (node.type === 'branch') {
+                iconBg = theme.iconBg + ' text-base';
+            } else {
+                iconBg = theme.childIcon + ' text-sm';
+            }
 
             let subtext = '';
             if (isRoot) {
@@ -576,14 +654,14 @@
                     <i class="fa-solid ${node.icon}"></i>
                 </div>
                 <div class="flex-1 min-w-0">
-                    <h4 class="font-extrabold tracking-tight whitespace-normal leading-relaxed ${isRoot ? 'text-white text-base whitespace-pre-line' : node.type === 'branch' ? 'text-white text-sm' : isSubLeaf ? 'text-slate-200 text-xs' : 'text-slate-100 text-xs'}">${node.title}</h4>
-                    ${subtext ? `<p class="text-[11px] mt-1 ${isRoot ? 'text-cyan-300 font-semibold' : node.type === 'branch' ? 'text-slate-400' : isInteractiveLeaf ? 'text-cyan-400 font-medium' : 'text-slate-400'}">${subtext}</p>` : ''}
+                    <h4 class="font-extrabold tracking-tight whitespace-normal leading-relaxed ${isRoot ? 'text-white text-base whitespace-pre-line' : node.type === 'branch' ? 'dark:text-white text-slate-900 text-sm' : isSubLeaf ? 'dark:text-slate-200 text-slate-800 text-xs' : 'dark:text-slate-100 text-slate-900 text-xs'}">${node.title}</h4>
+                    ${subtext ? `<p class="text-[11px] mt-1 ${isRoot ? 'text-cyan-300 font-semibold' : node.type === 'branch' ? 'dark:text-slate-400 text-slate-500' : isInteractiveLeaf ? 'text-cyan-600 dark:text-cyan-400 font-medium' : 'dark:text-slate-400 text-slate-500'}">${subtext}</p>` : ''}
                 </div>
             `;
 
             if (hasChildren) {
                 html += `
-                    <button onclick="toggleNode(event, '${node.id}')" class="w-7 h-7 rounded-xl bg-slate-800 hover:bg-cyan-400 hover:text-slate-950 text-cyan-400 flex items-center justify-center transition flex-shrink-0 shadow-md border border-slate-700 cursor-pointer pointer-events-auto" title="Thu gọn / Mở rộng">
+                    <button onclick="toggleNode(event, '${node.id}')" class="w-7 h-7 rounded-xl dark:bg-slate-800 bg-slate-200 hover:bg-cyan-400 hover:text-slate-950 dark:text-cyan-400 text-cyan-700 flex items-center justify-center transition flex-shrink-0 shadow-md dark:border-slate-700 border-slate-300 border cursor-pointer pointer-events-auto" title="Thu gọn / Mở rộng">
                         <i class="fa-solid ${node.collapsed ? 'fa-plus' : 'fa-minus'} text-xs"></i>
                     </button>
                 `;
@@ -630,12 +708,16 @@
             const rootRect = getNodeRect('root');
             if (!rootRect) return;
 
+            const isDark = document.documentElement.classList.contains('dark');
+
             mindmapData.children.forEach(branch => {
                 const branchRect = getNodeRect(branch.id);
                 if (branchRect) {
                     const startPoint = getBorderIntersection(rootRect, branchRect);
                     const endPoint = getBorderIntersection(branchRect, rootRect);
-                    drawNeonCurve(svg, startPoint.x, startPoint.y, endPoint.x, endPoint.y, '#38bdf8', 4);
+                    
+                    const theme = themeConfig[branch.colorTheme] || themeConfig.cyan;
+                    drawNeonCurve(svg, startPoint.x, startPoint.y, endPoint.x, endPoint.y, theme.lineColor, 4);
 
                     if (!branch.collapsed && branch.children) {
                         branch.children.forEach(leaf => {
@@ -643,7 +725,7 @@
                             if (leafRect) {
                                 const bStart = getBorderIntersection(branchRect, leafRect);
                                 const lEnd = getBorderIntersection(leafRect, branchRect);
-                                drawNeonCurve(svg, bStart.x, bStart.y, lEnd.x, lEnd.y, '#64748b', 2.5);
+                                drawNeonCurve(svg, bStart.x, bStart.y, lEnd.x, lEnd.y, theme.lineColor, 2.5);
 
                                 if (leaf.hasSubNodes && leaf.subChildren && !leaf.collapsed) {
                                     leaf.subChildren.forEach(sub => {
@@ -651,7 +733,7 @@
                                         if (subRect) {
                                             const lStart = getBorderIntersection(leafRect, subRect);
                                             const sEnd = getBorderIntersection(subRect, leafRect);
-                                            drawNeonCurve(svg, lStart.x, lStart.y, sEnd.x, sEnd.y, '#34d399', 2);
+                                            drawNeonCurve(svg, lStart.x, lStart.y, sEnd.x, sEnd.y, theme.lineColor, 2);
                                         }
                                     });
                                 }
@@ -765,14 +847,14 @@
 
                 node.specs.forEach((spec, idx) => {
                     const div = document.createElement('div');
-                    div.className = `flex items-center space-x-2.5 p-3 rounded-xl border transition cursor-pointer ${idx === 0 ? 'bg-cyan-500/20 border-cyan-500/50 text-white shadow-sm' : 'bg-slate-900/90 border-slate-800 text-slate-300 hover:bg-slate-800'}`;
-                    div.innerHTML = `<i class="fa-solid fa-circle-check text-cyan-400 text-xs"></i><span class="font-medium">${spec.text}</span>`;
+                    div.className = `flex items-center space-x-2.5 p-3 rounded-xl border transition cursor-pointer ${idx === 0 ? 'bg-cyan-500/20 border-cyan-500/50 text-slate-900 dark:text-white shadow-sm' : 'dark:bg-slate-900/90 bg-white dark:border-slate-800 border-slate-200 dark:text-slate-300 text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800'}`;
+                    div.innerHTML = `<i class="fa-solid fa-circle-check text-cyan-500 dark:text-cyan-400 text-xs"></i><span class="font-medium">${spec.text}</span>`;
                     
                     div.onclick = () => {
                         specsContainer.querySelectorAll('div').forEach(el => {
-                            el.className = 'flex items-center space-x-2.5 p-3 rounded-xl border border-slate-800 bg-slate-900/90 text-slate-300 hover:bg-slate-800 transition cursor-pointer';
+                            el.className = 'flex items-center space-x-2.5 p-3 rounded-xl border dark:border-slate-800 border-slate-200 dark:bg-slate-900/90 bg-white dark:text-slate-300 text-slate-700 dark:hover:bg-slate-800 hover:bg-slate-100 transition cursor-pointer';
                         });
-                        div.className = 'flex items-center space-x-2.5 p-3 rounded-xl border border-cyan-500/50 bg-cyan-500/20 text-white transition cursor-pointer shadow-sm';
+                        div.className = 'flex items-center space-x-2.5 p-3 rounded-xl border border-cyan-500/50 bg-cyan-500/20 text-slate-900 dark:text-white transition cursor-pointer shadow-sm';
                         
                         workImage.src = spec.imageUrl || "dan_link_vao_day";
                         document.getElementById('imageLabel').innerText = `Hình ảnh: ${spec.text}`;
