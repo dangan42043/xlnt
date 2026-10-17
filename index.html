@@ -141,6 +141,16 @@
 
             <div class="flex-1 overflow-y-auto p-6 grid grid-cols-1 lg:grid-cols-2 gap-6 bg-[#04070e]">
                 <div class="space-y-4">
+                    <!-- Mục Vị trí công trình -->
+                    <div id="locationSection" class="bg-darkCard p-5 rounded-2xl border border-slate-800 shadow-xl relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-1.5 h-full bg-emerald-400"></div>
+                        <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-2 flex items-center">
+                            <i class="fa-solid fa-location-dot mr-2"></i> Vị trí trong dây chuyền
+                        </h3>
+                        <p id="modalLocation" class="text-slate-200 text-sm leading-relaxed">Đang tải vị trí...</p>
+                    </div>
+
+                    <!-- Mục Mục đích công trình -->
                     <div class="bg-darkCard p-5 rounded-2xl border border-slate-800 shadow-xl relative overflow-hidden">
                         <div class="absolute top-0 left-0 w-1.5 h-full bg-cyan-400"></div>
                         <h3 class="text-xs font-bold text-cyan-400 uppercase tracking-widest mb-2 flex items-center">
@@ -148,6 +158,8 @@
                         </h3>
                         <p id="modalDescription" class="text-slate-200 text-sm leading-relaxed">Đang tải nội dung...</p>
                     </div>
+
+                    <!-- Phân loại -->
                     <div class="bg-darkCard p-5 rounded-2xl border border-slate-800 shadow-xl relative overflow-hidden">
                         <div class="absolute top-0 left-0 w-1.5 h-full bg-amber-400"></div>
                         <h3 class="text-xs font-bold text-amber-400 uppercase tracking-widest mb-3 flex items-center">
@@ -265,7 +277,8 @@
                             title: "Thiết bị chắn rác",
                             type: "leaf",
                             icon: "fa-bars-staggered",
-                            desc: "Giữ những rác bẩn thô (giấy, rau, cỏ, rác…), nhằm đảm bảo đảm cho máy bơm, các công trình và thiết bị xử lý nước thải hoạt động ổn định",
+                            location: "Đặt ở đầu tuyến xử lý nước thải (đầu nguồn trạm xử lý, trước các trạm bơm nước thải thô).",
+                            desc: "Giữ những rác bẩn thô (giấy, rau, cỏ, rác…), nhằm đảm bảo đảm cho máy bơm, các công trình và thiết bị xử lý nước thải hoạt động ổn định.",
                             specs: [
                                 { text: "Song chắn rác", imageUrl: "https://cdn.upanhlaylink.com/i/PzOO9cDm.png" },
                                 { text: "Lưới chắn rác", imageUrl: "https://cdn.upanhlaylink.com/i/Ycmkyoam.png" }
@@ -276,7 +289,8 @@
                             title: "Thiết bị nghiền rác",
                             type: "leaf",
                             icon: "fa-gear",
-                            desc: "cắt và nghiền vụn rác thành các hạt, các mảnh nhỏ lơ lửng trong nước thải để không làm tắc ống, không gây hại cho bơm",
+                            location: "Lắp đặt trên đường ống dẫn nước thải hoặc kết hợp ngay sau cụm song chắn/lưới chắn rác thô.",
+                            desc: "Cắt và nghiền vụn rác thành các hạt, các mảnh nhỏ lơ lửng trong nước thải để không làm tắc ống, không gây hại cho bơm.",
                             specs: [
                                 { text: "Máy nghiền 1 trục", imageUrl: "https://cdn.upanhlaylink.com/i/lN7lgm9l.png" },
                                 { text: "Máy nghiền đa trục", imageUrl: "https://cdn.upanhlaylink.com/i/LeutpMyz.png" },
@@ -288,7 +302,8 @@
                             title: "Bể vớt dầu mỡ",
                             type: "leaf",
                             icon: "fa-box-archive",
-                            desc: "Tách dầu mỡ thừa và rác thải rắn ra khỏi nước thải",
+                            location: "Thường bố trí ở đầu dây chuyền xử lý (đối với nước thải công nghiệp, nhà hàng, khách sạn, xưởng cơ khí, chế biến thực phẩm có chứa nhiều dầu mỡ), trước các công trình sinh học.",
+                            desc: "Tách dầu mỡ thừa và rác thải rắn ra khỏi nước thải.",
                             specs: [
                                 { text: "Bể tách mỡ 2 ngăn", imageUrl: "https://cdn.upanhlaylink.com/i/t6Z3OkOw.webp" },
                                 { text: "Bể tách mỡ 3 ngăn", imageUrl: "https://cdn.upanhlaylink.com/i/gSwBs6XN.png" },
@@ -299,20 +314,21 @@
                             title: "Tuyển nổi",
                             type: "leaf",
                             icon: "fa-filter-circle-dollar",
-                            desc: "Tách các tạp chất (ở dạng hạt rắn hoặc lỏng) phân tán không tan, tự lắng kém ra khỏi pha lỏng",
+                            location: "Đặt sau bể điều hòa hoặc ở công đoạn xử lý cơ học nâng cao, trước cụm xử lý sinh học.",
+                            desc: "Tách các tạp chất (ở dạng hạt rắn hoặc lỏng) phân tán không tan, tự lắng kém ra khỏi pha lỏng.",
                             specs: [
                                 { text: "Phân tán không khí bằng thiết bị cơ học", imageUrl: "https://cdn.upanhlaylink.com/i/2FbrQBhQ.png" },
                                 { text: "Tách không khí với nước", imageUrl: "https://cdn.upanhlaylink.com/i/VW9xvdyf.png" },
                                 { text: "Tuyển nổi điện", imageUrl: "https://cdn.upanhlaylink.com/i/dLZ9Q7fs.webp" }
                             ]
-                            
                         },
                         {
                             id: "ct-5",
                             title: "Bể lắng cát",
                             type: "leaf",
                             icon: "fa-wave-square",
-                            desc: "loại bỏ cặn thô, nặng như: cát, sỏi, mảnh thủy tinh, mảnh kim loại, tro, than vụn… nhằm bảo vệ các thiết bị cơ khí dễ bị mài mòn, giảm cặn nặng ở các công đoạn xử lý sau.",
+                            location: "Đặt sau thiết bị chắn rác và trước bể lắng đợt 1 (hoặc trước bể điều hòa).",
+                            desc: "Loại bỏ cặn thô, nặng như: cát, sỏi, mảnh thủy tinh, mảnh kim loại, tro, than vụn… nhằm bảo vệ các thiết bị cơ khí dễ bị mài mòn, giảm cặn nặng ở các công đoạn xử lý sau.",
                             specs: [
                                 { text: "Bể lắng cát ngang", imageUrl: "https://cdn.upanhlaylink.com/i/angfLwjR.png" },
                                 { text: "Bể lắng cát đứng", imageUrl: "https://cdn.upanhlaylink.com/i/xb76Vsl2.png" },
@@ -325,7 +341,8 @@
                             title: "Bể điều hòa",
                             type: "leaf",
                             icon: "fa-mountain",
-                            desc: "Khắc phục các vấn đề sinh ra do sự biến động về lưu lượng và tải lượng dòng vào, đảm bảo hiệu quả của các công trình xử lý sau, đảm bảo đầu ra sau xử lý, giảm chi phí và kích thước của các thiết bị sau này",
+                            location: "Đặt sau các công trình xử lý sơ bộ cơ học (chắn rác, lắng cát) và trước các công trình xử lý sinh học/hóa lý chính.",
+                            desc: "Khắc phục các vấn đề sinh ra do sự biến động về lưu lượng và tải lượng dòng vào, đảm bảo hiệu quả của các công trình xử lý sau, đảm bảo đầu ra sau xử lý, giảm chi phí và kích thước của các thiết bị sau này.",
                             specs: [
                                 { text: "Bể điều hòa lưu lượng", imageUrl: "https://cdn.upanhlaylink.com/i/iQocWWBM.jpg" },
                                 { text: "Bể điều hòa lưu lượng và chất lượng ", imageUrl: "https://cdn.upanhlaylink.com/i/cNjQyDkf.png" },
@@ -336,7 +353,8 @@
                             title: "Xử lý bằng phương pháp lắng trong xử lý nước thải",
                             type: "leaf",
                             icon: "fa-layer-group",
-                            desc: "Dùng trọng lực để tách các hạt cặn lơ lửng không hòa tan ra khỏi nước thải",
+                            location: "Bố trí làm bể lắng đợt 1 (trước công trình sinh học) hoặc bể lắng đợt 2 (sau công trình sinh học để tách bùn sinh học).",
+                            desc: "Dùng trọng lực để tách các hạt cặn lơ lửng không hòa tan ra khỏi nước thải.",
                             specs: [
                                 { text: "Bể lắng ngang", imageUrl: "https://cdn.upanhlaylink.com/i/itneZjLa.webp" },
                                 { text: "Bể lắng đứng", imageUrl: "https://cdn.upanhlaylink.com/i/bUhA1JKd.jpg" },
@@ -348,7 +366,8 @@
                             title: "Xử lý bằng phương pháp lọc trong xử lý nước thải",
                             type: "leaf",
                             icon: "fa-droplet",
-                            desc: "Tách các chất lắng lơ lửng ra khỏi nước khi hỗn hợp nước và chất rắn lơ lửng đi qua lớp vật liệu lỗ ( lớp vật liệu lọc), chất rắn lơ lửng sẽ được giữ lại và nước tiếp tục chảy qua",
+                            location: "Thường đặt ở giai đoạn xử lý bậc cao (cuối dây chuyền công nghệ), trước khi khử trùng và xả thải ra nguồn tiếp nhận hoặc tái sử dụng nước.",
+                            desc: "Tách các chất lắng lơ lửng ra khỏi nước khi hỗn hợp nước và chất rắn lơ lửng đi qua lớp vật liệu lỗ (lớp vật liệu lọc), chất rắn lơ lửng sẽ được giữ lại và nước tiếp tục chảy qua.",
                             specs: [
                                 { text: "Bể lọc không áp", imageUrl: "https://cdn.upanhlaylink.com/i/9BdGnF6c.jpg" },
                                 { text: "Bể lọc có áp", imageUrl: "https://cdn.upanhlaylink.com/i/QwkH8a74.png" }
@@ -549,7 +568,7 @@
             } else if (isSubLeaf) {
                 subtext = '';
             } else if (isInteractiveLeaf) {
-                subtext = '<i class="fa-solid fa-arrow-pointer mr-1"></i> Click xem chi tiết & Hình ảnh';
+                subtext = '<i class="fa-solid fa-arrow-pointer mr-1"></i> Click xem chi tiết & Vị trí';
             }
 
             let html = `
@@ -726,6 +745,15 @@
             document.getElementById('modalTitle').innerText = node.title;
             document.getElementById('modalDescription').innerText = node.desc || "Không có mô tả chi tiết.";
             
+            const locationSec = document.getElementById('locationSection');
+            const locationEl = document.getElementById('modalLocation');
+            if (node.location) {
+                locationEl.innerText = node.location;
+                locationSec.style.display = 'block';
+            } else {
+                locationSec.style.display = 'none';
+            }
+
             const specsContainer = document.getElementById('modalDetails');
             specsContainer.innerHTML = '';
             
