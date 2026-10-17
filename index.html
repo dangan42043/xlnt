@@ -620,13 +620,13 @@
                 el.style.width = '320px';
                 el.style.left = `${x - 160}px`;
                 el.style.top = `${y - 30}px`;
-                el.className = `node-card absolute rounded-xl border ${theme.childBorder} dark:bg-slate-900/95 bg-white/95 p-3 flex items-center space-x-2.5 z-20 shadow-md dark:text-slate-300 text-slate-600 text-xs pointer-events-auto opacity-95 transition-colors duration-300`;
+                el.className = `node-card absolute rounded-xl border ${theme.childBorder} dark:bg-slate-900/95 bg-white/95 p-3 flex items-center space-x-2.5 z-20 shadow-md dark:text-slate-200 text-slate-700 text-sm pointer-events-auto opacity-95 transition-colors duration-300`;
             } else {
                 el.style.width = '420px';
                 el.style.left = `${x - 210}px`;
                 el.style.top = `${y - 45}px`;
                 const interactiveClass = isInteractiveLeaf ? 'interactive cursor-pointer hover:border-cyan-400' : 'opacity-95';
-                el.className = `node-card absolute rounded-2xl border ${theme.childBorder} dark:bg-slate-900/95 bg-white/95 p-4 flex items-center space-x-3 z-20 shadow-lg dark:text-slate-200 text-slate-700 text-xs pointer-events-auto ${interactiveClass} transition-colors duration-300`;
+                el.className = `node-card absolute rounded-2xl border ${theme.childBorder} dark:bg-slate-900/95 bg-white/95 p-4 flex items-center space-x-3 z-20 shadow-lg dark:text-slate-100 text-slate-800 text-sm pointer-events-auto ${interactiveClass} transition-colors duration-300`;
             }
 
             let iconBg = '';
@@ -635,7 +635,7 @@
             } else if (node.type === 'branch') {
                 iconBg = theme.iconBg + ' text-base';
             } else {
-                iconBg = theme.childIcon + ' text-sm';
+                iconBg = theme.childIcon + ' text-base';
             }
 
             let subtext = '';
@@ -650,12 +650,12 @@
             }
 
             let html = `
-                <div class="${isSubLeaf ? 'w-8 h-8' : 'w-10 h-10'} rounded-xl flex-shrink-0 flex items-center justify-center ${iconBg} shadow-md">
+                <div class="${isSubLeaf ? 'w-9 h-9' : 'w-10 h-10'} rounded-xl flex-shrink-0 flex items-center justify-center ${iconBg} shadow-md">
                     <i class="fa-solid ${node.icon}"></i>
                 </div>
                 <div class="flex-1 min-w-0">
-                    <h4 class="font-extrabold tracking-tight whitespace-normal leading-relaxed ${isRoot ? 'text-white text-base whitespace-pre-line' : node.type === 'branch' ? 'dark:text-white text-slate-900 text-sm' : isSubLeaf ? 'dark:text-slate-200 text-slate-800 text-xs' : 'dark:text-slate-100 text-slate-900 text-xs'}">${node.title}</h4>
-                    ${subtext ? `<p class="text-[11px] mt-1 ${isRoot ? 'text-cyan-300 font-semibold' : node.type === 'branch' ? 'dark:text-slate-400 text-slate-500' : isInteractiveLeaf ? 'text-cyan-600 dark:text-cyan-400 font-medium' : 'dark:text-slate-400 text-slate-500'}">${subtext}</p>` : ''}
+                    <h4 class="font-extrabold tracking-tight whitespace-normal leading-relaxed ${isRoot ? 'text-white text-base whitespace-pre-line' : node.type === 'branch' ? 'dark:text-white text-slate-900 text-base' : isSubLeaf ? 'dark:text-slate-100 text-slate-900 text-sm font-semibold' : 'dark:text-white text-slate-900 text-sm font-semibold'}">${node.title}</h4>
+                    ${subtext ? `<p class="text-xs mt-1 ${isRoot ? 'text-cyan-300 font-semibold' : node.type === 'branch' ? 'dark:text-slate-400 text-slate-500' : isInteractiveLeaf ? 'text-cyan-600 dark:text-cyan-400 font-medium' : 'dark:text-slate-400 text-slate-500'}">${subtext}</p>` : ''}
                 </div>
             `;
 
